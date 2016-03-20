@@ -1,0 +1,8 @@
+---
+- name: shut off the droplet
+  digital_ocean: >
+    state=deleted
+    command=droplet
+    id={{ droplet_one.droplet.id }}
+    api_token={{ do_token }}      
+  delegate_to: localhost
