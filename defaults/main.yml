@@ -5,6 +5,7 @@ do_public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 do_token: "{{ vault.digital_ocean_api_key }}"
 do_root_user: "root"
 droplet_name: my_droplet
+droplet_region: nyc3
 droplet_idempotency: true
 droplet_size: 512mb
 droplet_image: ubuntu-14-04-x64
