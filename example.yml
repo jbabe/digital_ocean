@@ -1,0 +1,10 @@
+# Usage: 
+# pip install -r requirements.txt
+# ansible-galaxy install -r requirements.yml
+# ansible-playbook example.yml --ask-vault-pass  
+---
+- hosts: all
+  vars_files:
+    - /etc/ansible/vault.yml
+  roles:
+    - digital_ocean

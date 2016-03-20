@@ -1,2 +1,45 @@
 ---
-# tasks file for digital_ocean
+- name: ensure a local public key is added to your digitalocean.com account
+  digital_ocean: >
+    command=ssh
+    state=present
+    name={{ do_public_key_name }}
+    ssh_pub_key={{ do_public_key }}
+    api_token={{ do_token }}
+  register: do_ssh_key
+  delegate_to: localhost
+- debug: msg="SSH Key ID is {{ do_ssh_key.ssh_key.id }}"
+
+- name: ensure a server exists
+  digital_ocean: >
+    state=present
+    command=droplet
+    name={{ droplet_name }}
+    unique_name={{ droplet_idempotency }}
+    size_id={{ droplet_size }}
+    region_id={{ droplet_region }}
+    image_id={{ droplet_image }}
+    ssh_key_ids={{ do_ssh_key.ssh_key.id }}
+    api_token={{ do_token }}
+  register: droplet_one
+  delegate_to: localhost
+- debug: msg="Droplet ID is {{ droplet_one.droplet.id }}"
+- debug: msg="IP is {{ droplet_one.droplet.ip_address }}"
+
+- add_host: >
+    name={{ droplet_one.droplet.ip_address }}
+    groups=digital_ocean
+    ansible_connection=ssh
+    ansible_ssh_user={{ do_root_user }}
+
+- pause: >
+    prompt="Droplet is now available at {{ droplet_one.droplet.ip_address }}. Press 'Enter' to destroy droplet" 
+  delegate_to: localhost
+
+- name: shut off the droplet
+  digital_ocean: >
+    state=deleted
+    command=droplet
+    id={{ droplet_one.droplet.id }}
+    api_token={{ do_token }}      
+  delegate_to: localhost
