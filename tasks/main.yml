@@ -36,10 +36,5 @@
     prompt="Droplet is now available at {{ droplet_one.droplet.ip_address }}. Press 'Enter' to destroy droplet" 
   delegate_to: localhost
 
-- name: shut off the droplet
-  digital_ocean: >
-    state=deleted
-    command=droplet
-    id={{ droplet_one.droplet.id }}
-    api_token={{ do_token }}      
-  delegate_to: localhost
+- include: self_destruct.yml
+  tags: [self_destruct]  
