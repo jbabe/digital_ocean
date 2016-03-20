@@ -1,31 +1,57 @@
-Role Name
+digital_ocean
 =========
 
-A brief description of the role goes here.
+Creates a new Digital Ocean droplet
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Python/pip requirments found in:
+
+    requirements.txt
+
+Ansible role requirements found in:
+
+    requirements.yml    
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Variables found in:
+
+    defaults/main.yml
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Assumes a vault file under with the following format:
+
+    vault:
+      digital_ocean_api_key: abc123abc123abc123abc123abc123abc123
+  
+You can create a vault file with:
+
+    ansible-vault create /etc/ansible/vault.yml
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Example found in:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    example.yml
+
+Usage:
+
+    # Installs python requirements
+    pip install -r requirements.txt
+    # Installs Ansible role requirements
+    ansible-galaxy install -r requirements.yml
+  
+    # Creates and terminates droplet
+    ansible-playbook example.yml --ask-vault-pass
+  
+    # Creates droplet and does not terminate it
+    ansible-playbook example.yml --ask-vault-pass  --skip-tags "self_destruct"
 
 License
 -------
@@ -35,4 +61,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+https://github.com/jbabe
