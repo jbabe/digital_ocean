@@ -1,5 +1,6 @@
 digital_ocean
 =========
+[![Build Status](https://travis-ci.org/jbabe/digital_ocean.svg?branch=master)](https://travis-ci.org/jbabe/digital_ocean)
 
 Creates a new Digital Ocean droplet
 
